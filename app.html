@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissors to 5</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+      color: #333;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #e10600;
+    }
+
+    .btn-group {
+      margin: 20px;
+    }
+
+    button {
+      font-size: 1.1rem;
+      margin: 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #0033a0;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #001f5c;
+    }
+
+    #log {
+      margin-top: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    #score {
+      font-weight: bold;
+      margin-top: 20px;
+      font-size: 1.2rem;
+    }
+
+    #winner {
+      font-size: 1.5rem;
+      color: green;
+      margin-top: 20px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #0033a0;
+      border: 2px solid #0033a0;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .back-link:hover {
+      background-color: #0033a0;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Rock, Paper, Scissors</h1>
+  <p>First to 5 wins!</p>
+
+  <div class="btn-group">
+    <button onclick="playRound('rock')">🪨 Rock</button>
+    <button onclick="playRound('paper')">📄 Paper</button>
+    <button onclick="playRound('scissors')">✂️ Scissors</button>
+  </div>
+
+  <div id="score">You: 0 | Computer: 0</div>
+  <div id="winner"></div>
+
+  <div id="log">
+    <h3>Round History:</h3>
+    <ul id="historyList"></ul>
+  </div>
+
+  <!-- Link back to the scratch page -->
+  <a class="back-link" href="scratch.html">← Back to Scratch Page</a>
+
+  <script>
+    const choices = ['rock', 'paper', 'scissors'];
+    let playerScore = 0;
+    let computerScore = 0;
+
+    function getComputerChoice() {
+      return choices[Math.floor(Math.random() * choices.length)];
+    }
+
+    function playRound(playerSelection) {
+      if (playerScore === 5 || computerScore === 5) return;
+
+      const computerSelection = getComputerChoice();
+      let result = '';
+
+      if (playerSelection === computerSelection) {
+        result = "It's a tie!";
+      } else if (
+        (playerSelection === 'rock' && computerSelection === 'scissors') ||
+        (playerSelection === 'scissors' && computerSelection === 'paper') ||
+        (playerSelection === 'paper' && computerSelection === 'rock')
+      ) {
+        result = "You win this round!";
+        playerScore++;
+      } else {
+        result = "Computer wins this round!";
+        computerScore++;
+      }
+
+      document.getElementById('score').textContent = `You: ${playerScore} | Computer: ${computerScore}`;
+
+      const li = document.createElement('li');
+      li.textContent = `You chose ${playerSelection}, Computer chose ${computerSelection} → ${result}`;
+      document.getElementById('historyList').appendChild(li);
+
+      if (playerScore === 5 || computerScore === 5) {
+        const winnerMsg = playerScore === 5 ? "🎉 You won the game!" : "💻 Computer won the game!";
+        document.getElementById('winner').textContent = winnerMsg;
+      }
+    }
+  </script>
+</body>
+</html>
